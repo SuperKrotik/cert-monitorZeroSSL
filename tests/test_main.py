@@ -56,8 +56,8 @@ class RunMonitorTests(unittest.TestCase):
     def _notifier(self, ok: bool = True) -> Notifier:
         n = Notifier(
             SMTPConfig(
-                host="smtp.gmail.com", port=587, username="u@gmail.com",
-                password="p", from_addr="u@gmail.com", to=["t@gmail.com"],
+                host="smtp-relay.brevo.com", port=587, username="u@brevo-test.example",
+                password="p", from_addr="u@brevo-test.example", to=["t@gmail.com"],
             )
         )
         n.send = MagicMock(return_value=ok)

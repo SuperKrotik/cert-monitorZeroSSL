@@ -13,7 +13,7 @@ DuckDNS на виртуальной машине cloud.ru с уведомлен�
   «продлено» / «продление не требуется» / ошибка (+ отдельное тревожное письмо).
 - **Еженедельный отчёт**: таблица статусов всех сертификатов + **баланс и расходы Cloud.ru** за неделю.
 - Установка выпущенных сертификатов в nginx (`nginx -t` + reload, с откатом при провале).
-- Email-уведомления через SMTP (Gmail: STARTTLS, app-password).
+- Email-уведомления через SMTP (Brevo SMTP relay: STARTTLS 587).
 - **Docker**: один контейнер (nginx + certbot + python + встроенный планировщик APScheduler),
   порты 80/443, секреты только через `secrets.env`.
 - state-файл — без дублей уведомлений.
@@ -38,7 +38,8 @@ DuckDNS на виртуальной машине cloud.ru с уведомлен�
 - VM cloud.ru с публичным IP; порты 80 и 443 открыты в security group; установлен Docker.
 - Аккаунт DuckDNS и токен (`https://www.duckdns.org/domains`).
 - Аккаунт ZeroSSL, API-ключ и **EAB-креды** (`https://app.zerossl.com/developer/credentials`).
-- Gmail с включённым 2FA и **app-password**.
+- Аккаунт **Brevo** (`https://app.brevo.com`) для отправки писем через SMTP relay
+  (не нужен личный почтовый аккаунт; ключ и логин — в разделе SMTP & API).
 - Домены `*.duckdns.org` указывают на публичный IP VM.
 - (опционально) IAM-ключ Cloud.ru для баланса и расходов в еженедельном отчёте.
 
@@ -84,7 +85,7 @@ docker compose exec cert-monitor python -m cert_monitor --weekly-report   # ра
 | `zerossl.*` | API-ключ и EAB-креды | — |
 | `certbot.renew_threshold_days` | порог автопродления | 14 |
 | `notify.days` | пороги уведомлений | `[7, 1]` |
-| `notify.smtp` | SMTP Gmail, app-password | — |
+| `notify.smtp` | SMTP Brevo relay (логин + ключ) | — |
 | `nginx.sites` | куда копировать сертификаты | пусто |
 | `cloudru.*` | IAM-ключ, agreement, ручной баланс | выключено |
 | `scheduler.*` | расписание встроенного планировщика | daily 03:15, weekly вс 09:00 |

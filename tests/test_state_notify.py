@@ -51,8 +51,8 @@ class NotifierTests(unittest.TestCase):
 
     def test_enabled(self) -> None:
         cfg = SMTPConfig(
-            host="smtp.gmail.com", port=587, username="u@gmail.com",
-            password="p", from_addr="u@gmail.com", to=["t@gmail.com"],
+            host="smtp-relay.brevo.com", port=587, username="u@brevo-test.example",
+            password="p", from_addr="u@brevo-test.example", to=["t@gmail.com"],
         )
         n = Notifier(cfg)
         self.assertTrue(n.enabled)
@@ -63,8 +63,8 @@ class NotifierTests(unittest.TestCase):
 
     def test_send_failure_returns_false(self) -> None:
         cfg = SMTPConfig(
-            host="smtp.gmail.com", port=587, username="u@gmail.com",
-            password="p", from_addr="u@gmail.com", to=["t@gmail.com"],
+            host="smtp-relay.brevo.com", port=587, username="u@brevo-test.example",
+            password="p", from_addr="u@brevo-test.example", to=["t@gmail.com"],
         )
         n = Notifier(cfg)
         with patch("cert_monitor.notify.smtplib.SMTP", side_effect=OSError("conn")):

@@ -1,4 +1,4 @@
-"""Отправка email-уведомлений через SMTP (Gmail: STARTTLS/app-password)."""
+"""Отправка email-уведомлений через SMTP (Brevo relay: STARTTLS/app-ключ)."""
 
 from __future__ import annotations
 
