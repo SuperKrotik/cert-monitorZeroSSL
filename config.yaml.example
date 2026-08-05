@@ -1,0 +1,79 @@
+# Конфигурация cert_monitor.
+# Скопируйте в /etc/cert-monitor/config.yaml, задайте chmod 600 и заполните секреты.
+# Секреты можно подставлять из переменных окружения в формате {env:VAR}.
+
+$schema: "https://json-schema.org/draft/2020-12/schema"
+description: ""
+
+# --- Домены DuckDNS ---
+# Список доменов для мониторинга и выдачи сертификатов.
+domains:
+  - name: "example.duckdns.org"        # Полный домен, для которого выпускается сертификат
+    webroot: "/var/www/certbot"        # Директория для HTTP-01 валидации (должна обслуживаться nginx)
+    # duckdns_subdomain: "example"     # Поддомен для DuckDNS API (обычно = name без .duckdns.org)
+
+# --- DuckDNS API ---
+# Токен с https://www.duckdns.org/domains (верх таблицы аккаунта).
+duckdns:
+  token: "{env:DUCKDNS_TOKEN}"
+  update_ip: true                      # Автоматически обновлять IP доменов через DuckDNS API
+  ip_api: "https://api.ipify.org"      # Сервис определения публичного IP (отвечает текстом)
+
+# --- ZeroSSL ---
+zerossl:
+  api_key: "{env:ZEROSSL_API_KEY}"     # Ключ с https://app.zerossl.com/developer
+  # EAB-креды для ACME (Kid + HMAC Key) с https://app.zerossl.com/developer/credentials
+  eab_kid: "{env:ZEROSSL_EAB_KID}"
+  eab_hmac_key: "{env:ZEROSSL_EAB_HMAC_KEY}"
+  acme_server: "https://acme.zerossl.com/v2/DV90"
+  certificate_validity_days: 90        # Срок запрашиваемого сертификата
+
+# --- certbot ---
+certbot:
+  # executable: "/usr/bin/certbot"
+  # config_dir: "/etc/letsencrypt"
+  email: "you@example.com"             # Email регистрации ACME-аккаунта
+  renew_threshold_days: 1              # За сколько дней до истечения запускать продление
+  post_hook: ""                        # Команда после успешного renew (например, reload nginx)
+
+# --- Уведомления ---
+notify:
+  days: [7, 1]                         # За сколько дней до истечения слать уведомления
+  smtp:
+    host: "smtp.gmail.com"
+    port: 587
+    username: "{env:SMTP_USERNAME}"    # Полный адрес Gmail (например, user@gmail.com)
+    password: "{env:SMTP_APP_PASSWORD}"# App-password (2FA + https://myaccount.google.com/apppasswords)
+    from: "{env:SMTP_USERNAME}"
+    to: ["{env:NOTIFY_TO}"]            # Список получателей
+    use_tls: true                      # STARTTLS на 587
+    use_ssl: false                     # True для 465 (SMTP_SSL)
+
+# --- Пути ---
+paths:
+  certs_dir: "/etc/cert-monitor/certs" # Локальные копии выданных сертификатов (fullchain/privkey)
+  state_file: "/var/lib/cert-monitor/state.json"  # Состояние уведомлений и последний IP
+  log_file: "/var/log/cert-monitor/cert-monitor.log"
+
+# --- Установка в веб-сервер ---
+nginx:
+  # Куда копировать сертификат каждого домена.
+  # Ключ - имя домена, значение - {"cert": путь, "key": путь, "reload": bool}
+  sites: {}
+
+# --- Cloud.ru (баланс и расходы в еженедельном отчёте) ---
+cloudru:
+  enabled: false                   # Включить сбор данных Cloud.ru
+  key_id: "{env:CLOUDRU_KEY_ID}"   # Key ID (IAM ключ доступа)
+  secret: "{env:CLOUDRU_SECRET}"   # Key Secret
+  agreement_id: "{env:CLOUDRU_AGREEMENT_ID}"  # ID договора
+  manual_balance: 1000             # Ручной баланс (fallback, если API недоступен)
+  balance_start_date: "2026-08-01" # Начало периода учёта баланса
+
+# --- Встроенный планировщик (Docker-режим --serve) ---
+scheduler:
+  enabled: true        # Отключить, чтобы не запускать планировщик в --serve
+  daily_time: "03:15"  # Ежедневный прогон монитора (HH:MM, UTC)
+  weekly_time: "09:00" # Еженедельный отчёт (HH:MM UTC)
+  weekly_day: 6        # 0=пн .. 6=вс (по умолчанию вс)
+  duckdns_interval_minutes: 5   # Обновление IP DuckDNS каждые N минут

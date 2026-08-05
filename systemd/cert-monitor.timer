@@ -1,0 +1,11 @@
+[Unit]
+Description=Run Cert Monitor daily
+Requires=cert-monitor.service
+
+[Timer]
+OnCalendar=*-*-* 03:15:00
+RandomizedDelaySec=300
+Persistent=true
+
+[Install]
+WantedBy=timers.target

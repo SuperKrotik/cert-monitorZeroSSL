@@ -1,0 +1,20 @@
+[Unit]
+Description=Cert Monitor: DuckDNS IP update only
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=certmon
+Group=certmon
+ExecStart=/usr/bin/python3 -m cert_monitor --config /etc/cert-monitor/config.yaml --duckdns-only
+WorkingDirectory=/opt/cert-monitor
+Environment=PYTHONUNBUFFERED=1
+EnvironmentFile=-/etc/cert-monitor/secrets.env
+ReadWritePaths=/etc/cert-monitor /var/lib/cert-monitor /var/log/cert-monitor
+TimeoutStartSec=120
+Nice=10
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

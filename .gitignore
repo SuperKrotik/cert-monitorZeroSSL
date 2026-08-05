@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# Секреты и конфигурация — НЕ коммитить.
+config.yaml
+secrets.env
+.env
+*.env
+!secrets.env.example
+
+# Артефакты работы.
+state.json
+*.log
+logs/
+certs/
+
+# IDE / ОС
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml

@@ -1,0 +1,40 @@
+services:
+  cert-monitor:
+    build: .
+    image: cert-monitor:latest
+    container_name: cert-monitor
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      TZ: "Etc/UTC"
+    env_file:
+      - /etc/cert-monitor/secrets.env
+    volumes:
+      # Конфиг и секреты — read-only.
+      - /etc/cert-monitor/config.yaml:/etc/cert-monitor/config.yaml:ro
+      - /etc/cert-monitor/secrets.env:/etc/cert-monitor/secrets.env:ro
+      # Порождаемые данные (state, логи).
+      - cert-monitor-data:/var/lib/cert-monitor
+      - cert-monitor-data:/var/log/cert-monitor
+      # Certbot и webroot — долгоживущие.
+      - cert-monitor-letsencrypt:/etc/letsencrypt
+      - cert-monitor-webroot:/var/www/certbot
+    command: ["--serve"]
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:80/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  cert-monitor-data:
+  cert-monitor-letsencrypt:
+  cert-monitor-webroot:

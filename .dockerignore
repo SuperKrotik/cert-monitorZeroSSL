@@ -1,0 +1,29 @@
+# Не копировать в build-контекст и образ.
+.git/
+.github/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Секреты и конфиги — никогда в образ.
+config.yaml
+secrets.env
+*.env
+
+# Артефакты работы/тестов.
+tests/
+state.json
+*.log
+logs/
+certs/
+smoke/
+tmp/
+
+# Документация/скрипты установки не нужны в образе.
+README.md
+install.sh
+install-docker.sh
+*.md
+docs/
