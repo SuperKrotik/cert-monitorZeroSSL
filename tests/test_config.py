@@ -37,8 +37,8 @@ certbot:
 notify:
   days: [7, 1]
   smtp:
-    host: "smtp-relay.brevo.com"
-    username: "u@brevo-test.example"
+    host: "smtp.mailfence.com"
+    username: "u@service-account.example"
     password: "p"
 """)
         cfg = Config.load(str(cfg_path))

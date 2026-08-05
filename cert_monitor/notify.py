@@ -1,4 +1,4 @@
-"""Отправка email-уведомлений через SMTP (Brevo relay: STARTTLS/app-ключ)."""
+"""Отправка email-уведомлений через SMTP (сервисный Mailfence-аккаунт: SSL 465)."""
 
 from __future__ import annotations
 

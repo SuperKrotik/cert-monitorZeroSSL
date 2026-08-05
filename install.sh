@@ -69,9 +69,9 @@ DUCKDNS_TOKEN=replace_me
 ZEROSSL_API_KEY=replace_me
 ZEROSSL_EAB_KID=replace_me
 ZEROSSL_EAB_HMAC_KEY=replace_me
-# Отправка писем через Brevo (SMTP relay): SMTP логин и SMTP key из Brevo -> SMTP & API.
-SMTP_USERNAME=your_brevo_account@example.com
-SMTP_APP_PASSWORD=your_brevo_smtp_key
+# Отправка писем через отдельный сервисный Mailfence-аккаунт (mailfence.com, бесплатно, без телефона).
+SMTP_USERNAME=replace_me@mailfence.com
+SMTP_APP_PASSWORD=replace_me
 NOTIFY_TO=replace_me@gmail.com
 EOF
     chown root:"$USER" "$SECRETS_FILE"

@@ -40,16 +40,17 @@ certbot:
 notify:
   days: [7, 1]                         # За сколько дней до истечения слать уведомления
   smtp:
-    # Отправка через Brevo (транзакционный SMTP, не личный почтовый аккаунт).
-    # Настройте в кабинете Brevo: SMTP relay -> SMTP логин/пароль (ключ).
-    host: "smtp-relay.brevo.com"
-    port: 587
-    username: "{env:SMTP_USERNAME}"    # SMTP login из кабинета Brevo (обычно email аккаунта)
-    password: "{env:SMTP_APP_PASSWORD}"# SMTP key (мастер-ключ) из Brevo -> SMTP & API
-    from: "{env:SMTP_USERNAME}"        # Адрес отправителя (подтверждён в Brevo)
-    to: ["{env:NOTIFY_TO}"]            # Список получателей (свои личные адреса)
-    use_tls: true                      # STARTTLS на 587
-    use_ssl: false                     # True для 465 (SMTP_SSL)
+    # Отправка через отдельный (сервисный) почтовый аккаунт, созданный только для писем программы.
+    # Рекомендация: Mailfence (mailfence.com) - бесплатно, без телефона, поддержка SMTP.
+    # Логин для авторизации = полный адрес ящика.
+    host: "smtp.mailfence.com"
+    port: 465                        # 465 = SMTP_SSL; или 587 с use_tls=true
+    username: "{env:SMTP_USERNAME}"  # полный адрес ящика (имя@mailfence.com)
+    password: "{env:SMTP_APP_PASSWORD}" # пароль ящика
+    from: "{env:SMTP_USERNAME}"      # адрес отправителя = ящик
+    to: ["{env:NOTIFY_TO}"]          # Список получателей (личные адреса)
+    use_tls: false                   # STARTTLS на 587
+    use_ssl: true                    # SSL на 465 (SMTP_SSL)
 
 # --- Пути ---
 paths:
