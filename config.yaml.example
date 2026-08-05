@@ -40,17 +40,16 @@ certbot:
 notify:
   days: [7, 1]                         # За сколько дней до истечения слать уведомления
   smtp:
-    # Отправка через отдельный (сервисный) почтовый аккаунт, созданный только для писем программы.
-    # Рекомендация: Mailfence (mailfence.com) - бесплатно, без телефона, поддержка SMTP.
-    # Логин для авторизации = полный адрес ящика.
-    host: "smtp.mailfence.com"
-    port: 465                        # 465 = SMTP_SSL; или 587 с use_tls=true
-    username: "{env:SMTP_USERNAME}"  # полный адрес ящика (имя@mailfence.com)
-    password: "{env:SMTP_APP_PASSWORD}" # пароль ящика
-    from: "{env:SMTP_USERNAME}"      # адрес отправителя = ящик
-    to: ["{env:NOTIFY_TO}"]          # Список получателей (личные адреса)
-    use_tls: false                   # STARTTLS на 587
-    use_ssl: true                    # SSL на 465 (SMTP_SSL)
+    # Отправка через российский SMTP-сервис SMTP.BZ (smtp.bz) — доступен из РФ, бесплатный тариф.
+    # Данные для подключения (хост, порт, логин, пароль) берутся из ЛК SMTP.BZ -> "Подключение и квота".
+    host: "{env:SMTP_HOST}"           # напр. smtp.smtp.bz (смотри в ЛК SMTP.BZ, там "Хост")
+    port: "{env:SMTP_PORT}"           # напр. 2525 (или 587) - смотри в ЛК SMTP.BZ
+    username: "{env:SMTP_USERNAME}"   # логин из ЛК SMTP.BZ
+    password: "{env:SMTP_APP_PASSWORD}" # пароль из ЛК SMTP.BZ
+    from: "{env:SMTP_USERNAME}"       # адрес отправителя (верифицированный домен в SMTP.BZ)
+    to: ["{env:NOTIFY_TO}"]           # Список получателей (личные адреса)
+    use_tls: false                    # STARTTLS: true если порт 587/2525 с TLS
+    use_ssl: false                    # SSL: true только для порта 465
 
 # --- Пути ---
 paths:

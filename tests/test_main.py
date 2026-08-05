@@ -56,7 +56,7 @@ class RunMonitorTests(unittest.TestCase):
     def _notifier(self, ok: bool = True) -> Notifier:
         n = Notifier(
             SMTPConfig(
-                host="smtp.mailfence.com", port=465, username="u@service-account.example",
+                host="smtp.smtp.bz", port=2525, username="u@duckdns.org",
                 password="p", from_addr="u@service-account.example", to=["t@gmail.com"],
             )
         )

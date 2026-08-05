@@ -37,8 +37,9 @@ certbot:
 notify:
   days: [7, 1]
   smtp:
-    host: "smtp.mailfence.com"
-    username: "u@service-account.example"
+    host: "smtp.smtp.bz"
+    port: 2525
+    username: "u@duckdns.org"
     password: "p"
 """)
         cfg = Config.load(str(cfg_path))

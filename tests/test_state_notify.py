@@ -51,7 +51,7 @@ class NotifierTests(unittest.TestCase):
 
     def test_enabled(self) -> None:
         cfg = SMTPConfig(
-            host="smtp.mailfence.com", port=465, username="u@service-account.example",
+            host="smtp.smtp.bz", port=2525, username="u@duckdns.org",
             password="p", from_addr="u@service-account.example", to=["t@gmail.com"],
         )
         n = Notifier(cfg)
@@ -63,7 +63,7 @@ class NotifierTests(unittest.TestCase):
 
     def test_send_failure_returns_false(self) -> None:
         cfg = SMTPConfig(
-            host="smtp.mailfence.com", port=465, username="u@service-account.example",
+            host="smtp.smtp.bz", port=2525, username="u@duckdns.org",
             password="p", from_addr="u@service-account.example", to=["t@gmail.com"],
         )
         n = Notifier(cfg)

@@ -1,4 +1,4 @@
-"""Отправка email-уведомлений через SMTP (сервисный Mailfence-аккаунт: SSL 465)."""
+"""Отправка email-уведомлений через SMTP (российский сервис SMTP.BZ)."""
 
 from __future__ import annotations
 

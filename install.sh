@@ -69,8 +69,11 @@ DUCKDNS_TOKEN=replace_me
 ZEROSSL_API_KEY=replace_me
 ZEROSSL_EAB_KID=replace_me
 ZEROSSL_EAB_HMAC_KEY=replace_me
-# Отправка писем через отдельный сервисный Mailfence-аккаунт (mailfence.com, бесплатно, без телефона).
-SMTP_USERNAME=replace_me@mailfence.com
+# Отправка писем через российский SMTP-сервис SMTP.BZ (smtp.bz) - бесплатно, доступен из РФ.
+# Данные подключения из ЛК SMTP.BZ -> "Подключение и квота".
+SMTP_HOST=smtp.smtp.bz
+SMTP_PORT=2525
+SMTP_USERNAME=replace_me@duckdns.org
 SMTP_APP_PASSWORD=replace_me
 NOTIFY_TO=replace_me@gmail.com
 EOF
